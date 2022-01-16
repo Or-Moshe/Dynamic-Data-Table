@@ -1,0 +1,134 @@
+<aura:component controller="DynamicDataTableCompCtrl" implements="force:hasRecordId,force:lightningQuickAction,flexipage:availableForRecordHome,force:hasSObjectName">
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="header" type="String" />
+    <aura:attribute name="columnsStr" type="String" />
+    <aura:attribute name="objectNameForQuery" type="String" />
+    <!--aura:attribute name="fields" type="String" /-->
+    <aura:attribute name="fieldsForTable" type="String" />
+    <aura:attribute name="whereClouse" type="String"/>
+    <aura:attribute name="fieldsForQueryCurrentRecord" type="String" />
+    <aura:attribute name="refferenceFieldsToId" type="String"/>
+    <aura:attribute name="totalRowsInPage" type="String" />
+    <aura:attribute name="limit" type="String" />
+    <aura:attribute name="showSearchStr" type="String" />
+    <aura:attribute name="fieldNameToSearch" type="String" />
+    
+    <aura:attribute name="searchVal" type="String" />
+    <aura:attribute name="objectName" type="String" default="{!v.sObjectName}"/>
+    
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="totalPages" type="Integer"/>
+    <aura:attribute name="originTotalPages" type="Integer"/>
+    
+    <aura:attribute name="isLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="showSearch" type="Boolean" default="false"/>
+    <aura:attribute name="showTableMsg" type="Boolean" default="false"/>
+    
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="rowNumToRow" type="List"/>   
+    <aura:attribute name="pageList" type="List"/> 
+    <aura:attribute name="originPageList" type="List"/>
+    
+    <aura:attribute name="mapValues" type="object" /> 
+    <aura:attribute name="pageToMapValues" type="object" /> 
+    <aura:attribute name="oldPageToMapValues" type="object" /> 
+    <aura:attribute name="columnToAmountClicks" type="object" /> 
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    
+    <aura:if isTrue="{!v.isLoaded}">
+        <div  class="slds-align_absolute-center">
+            <b>{!v.header}</b>
+        </div>
+        <aura:if isTrue="{!v.showSearch}">
+            {!v.header}
+                <div class="container">
+                    <lightning:layout>
+                        <!--span class="custom-box" onkeyup="{!c.handleKeyUp}" -->
+                        <lightning:layoutItem padding="around-small">
+                            <div class="custom-box" onkeyup="{! c.handleKeyUp }">
+                                <lightning:input aura:id="enter-search"
+                                                 name="enter-search"
+                                                 type="search"
+                                                 onchange="{!c.onChangeSearch}"
+                                                 value="{!v.searchVal}"/>
+                            </div>
+                        </lightning:layoutItem>
+                        <!--/span-->
+                        <lightning:layoutItem padding="around-small">
+                            <div class="search-btn">
+                                <lightning:button value="{!v.searchVal}" label="חפש" title="חפש" onclick="{! c.handleSearchClick }"/>  
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+        </aura:if>
+        <!--lightning:card title="{!v.header}"-->
+            <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <aura:iteration items="{! v.columns }" var="column" indexVar="index">
+                            <th aria-label="{!column.label}" aria-sort="none" class="slds-text-title_caps slds-is-resizable slds-is-sortable" scope="col">
+                                <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-align_absolute-center" onclick="{!c.clickColumn}" data-value="{!column.fieldName}" title="click to order">{!column.label}</div>
+                                </a>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+                <tbody style = " height: 100%; max-height: 100%; /*display: table-row-group;*/" >
+                    <aura:if isTrue="{!v.showTableMsg}">
+                        <div class="table-Msg-cls">
+                            אין תוצאות
+                        </div>
+                        <aura:set attribute="else">
+                            <aura:iteration items="{!v.mapValues}"  var="mapKey" indexVar="key">  
+                                <tr aria-selected="false" class="slds-hint-parent">
+                                    <aura:iteration items="{!mapKey.value}" var="mapValue">
+                                        <aura:if isTrue="{!mapValue.isRefference}">
+                                            <td role="gridcell">
+                                                <div class="slds-truncate">
+                                                    <!--lightning:button value="{!mapValue.idForLink}" label="{!mapValue.value}" title="{!mapValue.value}" onclick="{! c.clickLink }"/-->
+                                                    <button class="slds-button" value="{!mapValue.idForLink}" title="{!mapValue.value}" onclick="{! c.clickLink }">{!mapValue.value}</button>
+                                                </div>
+                                            </td>
+                                            <aura:set attribute="else"> 
+                                                <td role="gridcell">
+                                                    <div class="slds-truncate" title="{!mapValue.value}">{!mapValue.value}</div>
+                                                </td>
+                                            </aura:set>
+                                        </aura:if>                             
+                                    </aura:iteration>
+                                </tr>
+                            </aura:iteration>
+                        </aura:set>
+                    </aura:if> 
+                </tbody>
+            </table>
+        
+        
+        <lightning:layout class="slds-grid_align-center">
+            <div class="center-cls">
+                <lightning:layoutItem padding="around-small" size="12">
+                    <!--lightning:button label="{!$Label.c.FIRST}" iconName="utility:left" iconPosition="left" disabled="{! v.currentPageNumber == 1}" onclick="{!c.onFirst}"/-->
+                    <!--lightning:button label="{!$Label.c.Back}" iconPosition="left" disabled="{! v.currentPageNumber == 1}" onclick="{!c.onPrev}"/-->
+					<button class="slds-button"  disabled="{! v.currentPageNumber == 1}" onclick="{!c.onPrev}">{!$Label.c.Back}</button>
+                    <aura:iteration items="{!v.pageList}" var="item">
+                        <span class="slds-p-horizontal_x-small">
+                            <a onclick="{!c.processMe}" name="{!item}"
+                               class="{! (v.currentPageNumber == item) ? 'selected' : ''}">{!item}</a>
+                        </span>
+                    </aura:iteration>
+                    
+                    <!--lightning:button label="{!$Label.c.Next}" iconPosition="right" disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onNext}"/-->
+                    <button class="slds-button"  disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onNext}">{!$Label.c.Next}</button>
+                    <!--lightning:button label="{!$Label.c.LAST}" iconName="utility:right" iconPosition="right"  disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onLast}"/-->
+                </lightning:layoutItem>
+            </div>
+        </lightning:layout>
+            
+        <!--/lightning:card-->
+    </aura:if>
+</aura:component>

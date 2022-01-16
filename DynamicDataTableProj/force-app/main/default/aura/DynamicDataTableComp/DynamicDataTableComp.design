@@ -1,0 +1,12 @@
+<design:component>
+    <design:attribute name="header" label="header to table" required="false"/>
+    <design:attribute name="objectNameForQuery" label="object Name For Query" required="true"/>
+    <design:attribute name="fieldsForTable" label="fields For Table" description="fields to query" required="true"/>
+    <design:attribute name="fieldsForQueryCurrentRecord" label="fields for query of current record" description="where clouse to query" required="false"/>
+    <design:attribute name="whereClouse" label="whereClouse" description="where clouse to query" required="false"/>
+    <design:attribute name="limit" label="limit" description="" required="false"/>
+    <design:attribute name="refferenceFieldsToId" label="refference Fields" description="fields from query that will be clickable in format of field , id" />
+	<design:attribute name="totalRowsInPage" label="total Rows In Page" description="" required="true"/>
+    <design:attribute name="showSearchStr" label="show Search" description="" required="true"/>
+    <design:attribute name="fieldNameToSearch" label="field Name To Search" description="" required="false"/>
+</design:component>

@@ -1,0 +1,16 @@
+<design:component>
+    <design:attribute name="header" label="header to table" required="false"/>
+    <design:attribute name="objectNameForQuery" label="object Name For Query" required="true"/>
+    <design:attribute name="fieldsForTable" label="fields For display on Table" description="the columns labels will be by label of the fields" required="true"/>
+    <design:attribute name="fieldsForQueryCurrentRecord" label="fields for query of current record" description="get fields of current record for where clouse of datatable" required="false"/>
+    <design:attribute name="whereClouse" label="where Clouse" description="which record to query. you need format by the fields of current record by : *={0}" required="false"/>
+    <design:attribute name="whereClouseValuesEncapsulation" label="where Clouse Values Encapsulation" description="values for encupsulation in query. you need format by the fields of input above by : *={0}" placeholder="in format of *,*" required="false"/>
+    <design:attribute name="whereClouseFieldsEncapsulation" label="where Clouse Fields Encapsulation" description="which records to encupsulation in query. " placeholder="in format of *={0}" required="false"/>
+
+    <design:attribute name="orderBy" label="order by" description="" required="false"/>
+    <design:attribute name="limit" label="limit" description="" required="false"/>
+    <design:attribute name="refferenceFieldsToId" label="refference Fields" description="fields from query that will be clickable in format of field , id" placeholder="in format of *,*"/>
+	<design:attribute name="totalRowsInPage" label="total Rows In Page" description="" required="true"/>
+    <design:attribute name="showSearchStr" label="show Search" description="" placeholder="true/false" required="true"/>
+    <design:attribute name="fieldNameToSearch" label="fields api To Search" description="" placeholder="in format of *,*" required="false"/>
+</design:component>

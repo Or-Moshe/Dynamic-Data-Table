@@ -1,0 +1,41 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction,flexipage:availableForRecordHome,force:hasSObjectName">
+	
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="header" type="String" />
+    <aura:attribute name="columnsStr" type="String" />
+    <aura:attribute name="objectNameForQuery" type="String" />
+    <aura:attribute name="fieldsForTable" type="String" />
+    <aura:attribute name="whereClouse" type="String"/>
+    <aura:attribute name="whereClouseFieldsEncapsulation" type="String"/>
+    <aura:attribute name="whereClouseValuesEncapsulation" type="String"/>
+    <aura:attribute name="orderBy" type="String"/>
+    <aura:attribute name="fieldsForQueryCurrentRecord" type="String" />
+    <aura:attribute name="refferenceFieldsToId" type="String"/>
+    <aura:attribute name="totalRowsInPage" type="String" />
+    <aura:attribute name="limit" type="String" />
+    <aura:attribute name="showSearchStr" type="String" />
+    <aura:attribute name="fieldNameToSearch" type="String" />
+    
+    <aura:attribute name="objectName" type="String" default="{!v.sObjectName}"/>
+
+    
+    <lightning:card>
+    	<c:DynamicDataTableComp recordId="{!v.recordId}"
+                                  header="{!v.header}"
+                                  columnsStr="{!v.columnsStr}"
+                                  objectNameForQuery="{!v.objectNameForQuery}"
+                                  objectName="{!v.objectName}"
+                                  fieldsForTable="{!v.fieldsForTable}"
+                                  whereClouse="{!v.whereClouse}"
+                                  whereClouseFieldsEncapsulation="{!v.whereClouseFieldsEncapsulation}"
+                                  whereClouseValuesEncapsulation="{!v.whereClouseValuesEncapsulation}"
+                                  fieldsForQueryCurrentRecord="{!v.fieldsForQueryCurrentRecord}"
+                                  orderBy="{!v.orderBy}"
+                                  refferenceFieldsToId="{!v.refferenceFieldsToId}"
+                                  totalRowsInPage="{!v.totalRowsInPage}"
+                                  limit="{!v.limit}"
+                                  showSearchStr="{!v.showSearchStr}"
+                                  fieldNameToSearch="{!v.fieldNameToSearch}"/>
+        	
+    </lightning:card>
+</aura:component>

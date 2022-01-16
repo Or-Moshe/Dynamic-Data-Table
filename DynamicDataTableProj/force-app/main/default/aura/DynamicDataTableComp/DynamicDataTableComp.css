@@ -1,0 +1,69 @@
+/*.THIS td{
+    width: fit-content;
+    text-align: unset;
+}*/
+.THIS table{ 
+    text-align:center; 
+    width: 100%;
+    height: 100%;
+}
+.THIS th { 
+    text-align:center; 
+}
+.THIS td { 
+    text-align:center; 
+}
+/*.THIS button{
+   border: none;
+   background: none;
+}*/
+.THIS a{
+    text-align:center; 
+}
+.THIS p{
+    text-align: center;
+}
+
+.THIS span.slds-truncate {
+    white-space: initial;
+}
+
+.THIS div.slds-truncate {
+    white-space: initial;
+}
+.THIS .slds-align_absolute-center {
+	display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.THIS b{
+    font-size: 20px;
+}
+
+.THIS .selected{
+    color:orange;
+}
+.THIS .center-cls{
+    text-align: center;
+    margin-top: 10px;
+}
+.THIS .search-input{
+    width: 20%;
+    margin-bottom: 5px;
+}
+
+.THIS .table-Msg-cls{
+    height: 100%;
+    max-height: 100%;
+    position: absolute;
+    left: 47%;
+    margin-top: 8px;
+}
+
+.THIS .search-btn{
+    margin-top: 16.5px;
+    margin-right: -17px;
+}
